@@ -1,6 +1,7 @@
 package bittencourt.jader.santanderchallenge.subscriber;
 
 import bittencourt.jader.santanderchallenge.entities.Price;
+import bittencourt.jader.santanderchallenge.exceptions.InstrumentPriceNotFoundException;
 import bittencourt.jader.santanderchallenge.persistence.PseudoPersistence;
 
 import java.math.BigDecimal;
@@ -14,7 +15,13 @@ public class FxPriceUpdateSubscriber implements Subscriber {
     public void process(String csv) {
         Price price = buildPrice(csv);
         PseudoPersistence.getInstance().persist(price); // "store" the new price
+
         // ***ATENTION*** here would come the publish to REST logic
+        try {
+            System.out.println(PseudoPersistence.getInstance().getPriceByInstrumentName(price.instrumentName));
+        } catch (InstrumentPriceNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     protected Price buildPrice(String csv) {

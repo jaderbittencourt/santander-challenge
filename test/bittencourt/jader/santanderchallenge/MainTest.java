@@ -41,6 +41,9 @@ public class MainTest {
             Assertions.assertEquals(expectedEURUSD.ask, result.ask);
             Assertions.assertEquals(expectedEURUSD.bid, result.bid);
             Assertions.assertEquals(expectedEURUSD.timestamp, result.timestamp);
+
+            // print result that would be sent to REST endpoint
+            System.out.println(result.toString());
         } catch (InstrumentPriceNotFoundException e) {
             e.printStackTrace();
         }
